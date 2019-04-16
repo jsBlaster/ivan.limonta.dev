@@ -1,0 +1,14 @@
+html,body {
+  overflow: hidden;
+}
+.text{
+  position: absolute;
+  left: 30px;
+  top: 30px;
+  right: 30px;
+  text-align: center;
+  font-family: 'Product Sans Bold';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+}
