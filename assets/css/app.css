@@ -1,9 +1,7 @@
-html,
-body {
-  overflow: hidden;
-}
-
 .text {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   position: absolute;
   left: 30px;
   top: 30px;
@@ -13,23 +11,19 @@ body {
   font-style: normal;
   font-weight: normal;
   font-size: 30px;
-  top: 50%;
-  transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
+  top: 30%;
+  visibility: hidden;
 }
 
 
 .letter {
-  -webkit-transition: opacity 3s ease;
-  -moz-transition: opacity 3s ease;
   transition: opacity 3s ease;
+  opacity: 0;
 }
 
 html,
 body {
   overflow: hidden;
-  font: 16px/1.4 'Lato', sans-serif;
   color: #fefeff;
 }
 
@@ -45,14 +39,11 @@ canvas {
   height: 100%;
 }
 
-h1.transition-in {
+.transition-in {
   visibility: visible;
 }
 
-h1 [class^="letter"] {
-  opacity: 0;
-}
 
-h1.transition-in [class^="letter"] {
+.transition-in .letter{
   opacity: 1;
 }

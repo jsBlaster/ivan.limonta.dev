@@ -422,9 +422,9 @@ canvas.addEventListener('touchmove', function (e) {
 
 function m(t) {
 
-  for (var e, n = document.getElementById(t), i = n.innerHTML.replace("&amp;", "&").split(""), a = "", o = 0, s = i.length; s > o; o++) {
+  for (var e, n = document.querySelector(t), i = n.innerHTML.replace("&amp;", "&").split(""), a = "", o = 0, s = i.length; s > o; o++) {
     e = i[o].replace("&", "&amp");
-    a += e.trim() ? '<span class="letter" style="transition-delay:' + o * .1 + 's">' + e + "</span>" : "&nbsp;";
+    a += e.trim() ? '<span class="letter" style="transition-delay:' + o * .05 + 's">' + e + "</span>" : "&nbsp;</div><div>";
   }
 
   n.innerHTML = a;
@@ -436,5 +436,5 @@ function m(t) {
 }
 
 window.onload = function () {
-  m("h1");
+  m(".text");
 };
