@@ -1,7 +1,10 @@
 var canvas = document.getElementsByTagName("canvas")[0];
 
-canvas.width = canvas.clientWidth;
-canvas.height = canvas.clientHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+var lastCanvasWidth = canvas.width;
+var lastCanvasHeight = canvas.height;
 
 var config = {
   TEXTURE_DOWNSAMPLE: 1,
@@ -483,11 +486,18 @@ function splat(x, y, dx, dy, color) {
 }
 
 function resizeCanvas() {
-  (canvas.width !== canvas.clientWidth ||
-    canvas.height !== canvas.clientHeight) &&
-    ((canvas.width = canvas.clientWidth),
-    (canvas.height = canvas.clientHeight),
-    initFramebuffers());
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  var widthDiff = Math.abs(width - lastCanvasWidth);
+  var heightDiff = Math.abs(height - lastCanvasHeight);
+
+  if (widthDiff > 100 || heightDiff > 100) {
+    canvas.width = width;
+    canvas.height = height;
+    lastCanvasWidth = width;
+    lastCanvasHeight = height;
+    initFramebuffers();
+  }
 }
 
 var count = 0;
