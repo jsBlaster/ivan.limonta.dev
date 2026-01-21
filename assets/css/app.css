@@ -41,7 +41,7 @@ canvas {
   z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 30px;
   pointer-events: none;
 }
 
@@ -345,12 +345,12 @@ button,
 }
 
 @media (max-width: 768px) {
-  .hero {
-    min-height: 80vh;
+  .section {
+    padding: 3rem 30px;
   }
 
-  .section {
-    padding: 3rem 0;
+  .container {
+    padding: 0;
   }
 
   .work-grid {
