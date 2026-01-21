@@ -22,7 +22,6 @@ body {
 body {
   margin: 0;
   position: relative;
-  min-height: 100vh;
   background: #000;
 }
 
@@ -54,7 +53,7 @@ button,
 }
 
 .hero {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;

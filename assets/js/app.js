@@ -494,22 +494,64 @@ var count = 0;
 var colorArr = [Math.random() + 0.2, Math.random() + 0.2, Math.random() + 0.2];
 var mouseIsMoving = false;
 var timerId;
-var isTouch = false;
 
-canvas.addEventListener(
-  "touchstart",
-  function (e) {
-    isTouch = true;
-    e.preventDefault();
-  },
-  { passive: false },
-);
+// Rileva se è un dispositivo touch
+var isTouchDevice = (function () {
+  return (
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
+  );
+})();
 
-canvas.addEventListener(
-  "touchmove",
-  function (e) {
-    e.preventDefault();
+if (isTouchDevice) {
+  canvas.addEventListener(
+    "touchstart",
+    function (e) {
+      e.preventDefault();
+    },
+    { passive: false },
+  );
 
+  canvas.addEventListener(
+    "touchmove",
+    function (e) {
+      e.preventDefault();
+
+      if (!mouseIsMoving) {
+        mouseIsMoving = true;
+      }
+
+      clearTimeout(timerId);
+      timerId = setTimeout(() => {
+        mouseIsMoving = false;
+      }, 500);
+
+      count++;
+
+      count > 25 &&
+        ((colorArr = [
+          Math.random() + 0.2,
+          Math.random() + 0.2,
+          Math.random() + 0.2,
+        ]),
+        (count = 0));
+
+      var touch = e.touches[0];
+      var rect = canvas.getBoundingClientRect();
+
+      pointers[0].down = true;
+      pointers[0].color = colorArr;
+      pointers[0].moved = pointers[0].down;
+      pointers[0].dx = (touch.clientX - rect.left - pointers[0].x) * 10.0;
+      pointers[0].dy = (touch.clientY - rect.top - pointers[0].y) * 10.0;
+      pointers[0].x = touch.clientX - rect.left;
+      pointers[0].y = touch.clientY - rect.top;
+    },
+    { passive: false },
+  );
+} else {
+  canvas.addEventListener("mousemove", function (e) {
     if (!mouseIsMoving) {
       mouseIsMoving = true;
     }
@@ -529,51 +571,15 @@ canvas.addEventListener(
       ]),
       (count = 0));
 
-    var touch = e.touches[0];
-    var rect = canvas.getBoundingClientRect();
-
     pointers[0].down = true;
     pointers[0].color = colorArr;
     pointers[0].moved = pointers[0].down;
-    pointers[0].dx = (touch.clientX - rect.left - pointers[0].x) * 10.0;
-    pointers[0].dy = (touch.clientY - rect.top - pointers[0].y) * 10.0;
-    pointers[0].x = touch.clientX - rect.left;
-    pointers[0].y = touch.clientY - rect.top;
-  },
-  { passive: false },
-);
-
-canvas.addEventListener("mousemove", function (e) {
-  // Ignora eventi mouse se è un dispositivo touch
-  if (isTouch) return;
-
-  if (!mouseIsMoving) {
-    mouseIsMoving = true;
-  }
-
-  clearTimeout(timerId);
-  timerId = setTimeout(() => {
-    mouseIsMoving = false;
-  }, 500);
-
-  count++;
-
-  count > 25 &&
-    ((colorArr = [
-      Math.random() + 0.2,
-      Math.random() + 0.2,
-      Math.random() + 0.2,
-    ]),
-    (count = 0));
-
-  pointers[0].down = true;
-  pointers[0].color = colorArr;
-  pointers[0].moved = pointers[0].down;
-  pointers[0].dx = (e.offsetX - pointers[0].x) * 10.0;
-  pointers[0].dy = (e.offsetY - pointers[0].y) * 10.0;
-  pointers[0].x = e.offsetX;
-  pointers[0].y = e.offsetY;
-});
+    pointers[0].dx = (e.offsetX - pointers[0].x) * 10.0;
+    pointers[0].dy = (e.offsetY - pointers[0].y) * 10.0;
+    pointers[0].x = e.offsetX;
+    pointers[0].y = e.offsetY;
+  });
+}
 
 function simulateRandomMouseMove() {
   if (mouseIsMoving) {
